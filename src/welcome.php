@@ -57,8 +57,8 @@ try {
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link" href="#">Services</a>
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="services.php">Services</a>
+                    <a class="nav-link" href="contact.php">Contact</a>
                     <a class="nav-link" href="logout.php">Logout</a>
                 </div>
             </div>

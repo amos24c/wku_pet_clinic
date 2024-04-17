@@ -50,6 +50,22 @@ CREATE TABLE Appointments (
     FOREIGN KEY (service_id) REFERENCES Services(service_id)
 );
 
+CREATE TABLE Staff (
+    staff_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    role VARCHAR(255),
+    photo_url VARCHAR(255),
+    qualifications TEXT,
+    specialization TEXT
+);
+
+INSERT INTO Staff (name, email, password, role, photo_url, qualifications, specialization)
+VALUES
+('John Doe', 'clinicadmin@test.com', '$2y$10$4UoC5/1zJi2n97lVn1nNcOQdP7ZELzO0HO4YRvkXmQgFv0sN6F.u2', 'clinicadmin', 'images/johndoe.jpg',  'MSc in Veterinary Medicine', 'Veterinary Surgeon'),
+('Jane Smith', 'staff@test.com', '$2y$10$4UoC5/1zJi2n97lVn1nNcOQdP7ZELzO0HO4YRvkXmQgFv0sN6F.u2', 'staff', 'images/janesmith.jpg', 'PhD in Veterinary Pharmacology', 'Pharmacologist');
+
 
 INSERT INTO Owners (name, email, phone, address, password, deleted, created, updated)
 VALUES ('John Doe', 'john.doe@example.com', '555-1234', '1234 Maple Street', '$2y$10$4UoC5/1zJi2n97lVn1nNcOQdP7ZELzO0HO4YRvkXmQgFv0sN6F.u2', 
