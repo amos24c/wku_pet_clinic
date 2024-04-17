@@ -43,7 +43,11 @@ try {
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
-
+        <style>
+    .error {
+        border: 2px solid red;
+    }
+</style>
 </head>
 
 <body>
@@ -207,6 +211,9 @@ try {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="existing-appointments-placeholder">
+
+                    </div>
                     <form>
                         <input type="hidden" id="service-pet-id">
                         <div class="mb-3">
@@ -260,8 +267,9 @@ try {
                 startTime: '10:00',
                 dynamic: false,
                 dropdown: true,
-                scrollbar: true
+                scrollbar: true,
             });
+            $("#service-time").timepicker('setTime', new Date());
             $('#petsTable').DataTable();
         });
     </script>
@@ -271,30 +279,65 @@ try {
 
             //book service
             $('#btnBookService').click(function (e) {
-       
-                var petId = $('#service-pet-id').val();
-
-
                 e.preventDefault();
+
+                // Clear previous errors
+                $('.form-control').removeClass('error');
+
+                var isValid = true;
                 var service = $('#service-select').val();
                 var date = $('#service-date').val();
                 var time = $('#service-time').val();
+                var petId = $('#service-pet-id').val();
 
+                if (!service) {
+                    $('#service-select').addClass('error');
+                    isValid = false;
+                }
+
+                if (!date) {
+                    $('#service-date').addClass('error');
+                    isValid = false;
+                }
+
+                if (!time) {
+                    $('#service-time').addClass('error');
+                    isValid = false;
+                }
+
+                if (!petId) {
+                    $('#service-pet-id').addClass('error');
+                    isValid = false;
+                }
+
+                // If any of the validations failed, stop the function here
+                if (!isValid) {
+                    alert('Please fill in all required fields correctly.');
+                    return;
+                }
+
+                // Proceed with AJAX request if all validations pass
                 $.ajax({
-                    url: 'book_service.php',  // Your server-side script to process the form
+                    url: 'book_service.php',
                     type: 'POST',
                     data: { service: service, date: date, time: time, pet_id: petId },
                     success: function (response) {
                         console.log(response);
-                        alert('Service booked successfully!');
-                        $('#serviceModal').modal('hide');
-                        // Optionally refresh or update UI here
+                        var result = JSON.parse(response);
+                        if (result.error) {
+                            alert('Error: ' + result.error);
+                        } else {
+                            alert('Service booked successfully!');
+                            $('#serviceModal').modal('hide');
+                            // Optionally refresh or update UI here
+                        }
                     },
                     error: function (xhr, status, error) {
                         alert('An error occurred: ' + error);
                     }
                 });
             });
+
 
             $('#btnUpdatePet').click(function (e) {
                 e.preventDefault();
@@ -331,6 +374,42 @@ try {
                 });
             });
 
+            //delete appointment
+            $('body').on('click', '.delete-appointment', function (e) {
+                e.preventDefault();
+                if (!confirm('Are you sure you want to delete this appointment?')) {
+                    return;
+                }
+                var appointmentId = $(this).data('id');
+                var petId = $(this).data('pet-id');
+                $.ajax({
+                    url: 'delete_appointment.php',
+                    type: 'POST',
+                    data: { appointment_id: appointmentId },
+                    success: function (response) {
+                        console.log(response);
+                        alert('Appointment deleted successfully!');
+                        // Optionally refresh or update UI here
+                        // reloadPetsTable();
+                        // load the existing appointments
+                        $.ajax({
+                            url: 'get_appointments_list.php',
+                            type: 'GET',
+                            data: { pet_id: petId },
+                            success: function (response) {
+                                $('.existing-appointments-placeholder').html(response);
+                            },
+                            error: function (xhr, status, error) {
+                                alert('An error occurred: ' + error);
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
+
             //edit appointments
             $('#petsTable').on('click', '.edit-appointments', function (e) {
                 e.preventDefault();
@@ -341,6 +420,21 @@ try {
 
                 // Set the pet ID in the modal
                 $('#service-pet-id').val(petId);
+
+
+
+                // load the existing appointments
+                $.ajax({
+                    url: 'get_appointments_list.php',
+                    type: 'GET',
+                    data: { pet_id: petId },
+                    success: function (response) {
+                        $('.existing-appointments-placeholder').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
             });
 
             $('#petsTable').on('click', '.edit-pet', function (e) {

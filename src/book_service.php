@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $time = isset($_POST['time']) ? $mysqli->real_escape_string($_POST['time']) : null;
     $petId = isset($_POST['pet_id']) ? $mysqli->real_escape_string($_POST['pet_id']) : null;
 
+
     // Example of validating and formatting a date in PHP
     $date = $_POST['date']; // e.g., '12/31/2024' from form input
 
@@ -29,6 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(['error' => 'All fields are required']);
         exit;
     }
+
+
+    
 
     // Status is set to 'Scheduled' by default, adjust as needed
     $status = 'Scheduled';
