@@ -91,10 +91,7 @@ try {
                         <td><?php echo htmlspecialchars($pet['breed']); ?></td>
                         <td><?php echo htmlspecialchars($pet['age']); ?></td>
                         <td>
-                            <!-- Fix applied here -->
-                            <a href="edit_pet.php?pet_id=<?php echo $pet['pet_id']; ?>">Edit</a> |
-                            <a href="delete_pet.php?pet_id=<?php echo $pet['pet_id']; ?>"
-                                onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                            <a href="#" class="edit-pet" data-val="<?php echo $pet['pet_id'] ?>">Edit</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -157,7 +154,7 @@ try {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editPetForm">
+                    <form id="editPetForm" enctype="multipart/form-data">
                         <input type="hidden" id="edit-pet-id">
                         <div class="mb-3">
                             <label for="edit-pet-name" class="form-label">Name:</label>
@@ -178,6 +175,10 @@ try {
                         <div class="mb-3">
                             <label for="edit-medical-history" class="form-label">Medical History:</label>
                             <textarea class="form-control" id="edit-medical-history" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-pet-image" class="form-label">Pet Image:</label>
+                            <input type="file" class="form-control" id="edit-pet-image" name="pet_image">
                         </div>
                     </form>
                 </div>
@@ -204,6 +205,70 @@ try {
 
     <script type="text/javascript">
         $(function () {
+
+
+            $('#btnUpdatePet').click(function (e) {
+                e.preventDefault();
+                var formData = new FormData($('#editPetForm')[0]);  // Create FormData from form element
+    
+                // add breed
+                //append petid  
+                formData.append('pet_id', $('#edit-pet-id').val());
+                formData.append('breed', $('#edit-breed').val());
+                formData.append('age', $('#edit-age').val());
+                formData.append('medical_history', $('#edit-medical-history').val());
+                formData.append('age', $('#edit-age').val());
+                formData.append('name', $('#edit-pet-name').val());
+                formData.append('species', $('#edit-species').val());
+
+                $.ajax({
+                    url: 'update_pet.php',  // Your server-side script to process the form
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,  // Required for file upload
+                    processData: false,  // Required for file upload
+                    success: function (response) {
+                        console.log(response);
+                        alert('Pet updated successfully!');
+                        $('#editPetModal').modal('hide');
+                        // Optionally refresh or update UI here
+                        reloadPetsTable();
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
+
+            // click doenst work after reloaddatatable
+
+            $('#petsTable').on('click', '.edit-pet', function (e) {
+                e.preventDefault();
+                var petId = $(this).data('val'); // Ensure you're using the right data attribute to get the pet ID
+                $.ajax({
+                    url: 'get_pet.php',
+                    type: 'GET',
+                    data: { pet_id: petId },
+                    success: function (response) {
+                        var pet = JSON.parse(response);
+                        $('#edit-pet-id').val(pet.pet_id);
+                        $('#edit-pet-name').val(pet.name);
+                        $('#edit-species').val(pet.species);
+                        $('#edit-breed').val(pet.breed);
+                        $('#edit-age').val(pet.age);
+                        $('#edit-medical-history').val(pet.medical_history);
+                        $('#editPetModal').modal('show');
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
+
+
+
             $('#btnSavePet').click(function (e) {
                 e.preventDefault(); // Prevent default form submission
 
@@ -250,6 +315,8 @@ try {
                     console.log(response);
                     $('#petsTable tbody').html(response);
                     $('#petsTable').DataTable();
+                    // rebind click event
+
                 },
                 error: function (err) {
                     console.log('Error: Failed to fetch pets.');
@@ -257,6 +324,7 @@ try {
                 }
             });
         }
+
     </script>
 
 </body>

@@ -24,9 +24,8 @@ if ($result) {
         $output .= '<td>' . htmlspecialchars($row['species']) . '</td>';
         $output .= '<td>' . htmlspecialchars($row['breed']) . '</td>';
         $output .= '<td>' . htmlspecialchars($row['age']) . '</td>';
-        $output .= '<td><a href="#" class="edit-link" data-id="' . $row['pet_id'] . '">Edit</a> | ';
-        $output .= '<a href="#" class="delete-link" data-id="' . $row['pet_id'] . '">Delete</a></td>';
-        $output .= '</tr>';
+        $output .= '<td><a href="#" class="edit-pet" data-val="' . $row['pet_id'] . '">Edit</a></td>';
+        
     }
 
     echo $output;
