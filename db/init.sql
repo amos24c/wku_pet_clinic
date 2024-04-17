@@ -61,6 +61,18 @@ CREATE TABLE Staff (
     specialization TEXT
 );
 
+CREATE TABLE ClinicInfo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    address TEXT,
+    phone VARCHAR(255),
+    email VARCHAR(255),
+    hours TEXT
+);
+
+INSERT INTO ClinicInfo (address, phone, email, hours)
+VALUES ('1234 Pet Street, PetTown, PT 12345', '555-1234', 'contact@petclinic.com', 'Mon-Fri: 9 AM - 5 PM, Sat: 9 AM - 12 PM');
+
+
 INSERT INTO Staff (name, email, password, role, photo_url, qualifications, specialization)
 VALUES
 ('John Doe', 'clinicadmin@test.com', '$2y$10$4UoC5/1zJi2n97lVn1nNcOQdP7ZELzO0HO4YRvkXmQgFv0sN6F.u2', 'clinicadmin', 'images/johndoe.jpg',  'MSc in Veterinary Medicine', 'Veterinary Surgeon'),
