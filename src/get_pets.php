@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'config.php';  // Assuming this file contains your $mysqli connection setup
 
 header('Content-Type: text/html; charset=UTF-8');
@@ -8,7 +9,8 @@ if (!$mysqli) {
     exit;
 }
 
-$query = "SELECT pet_id, name, species, breed, age FROM Pets";  // Assuming a 'deleted' column for soft deletes
+$owner_id = $_SESSION['id'];  // Assuming you have an owner ID in the session
+$query = "SELECT picture, pet_id, name, species, breed, age FROM Pets WHERE owner_id = $owner_id";  // Assuming a 'deleted' column for soft deletes
 $result = $mysqli->query($query);
 
 if ($result) {
@@ -17,6 +19,7 @@ if ($result) {
 
     foreach ($rows as $row) {
         $output .= '<tr>';
+        $output .= '<td><img src="' . htmlspecialchars($row['picture']) . '" alt="Pet Image" style="width: 60px; height: auto;"></td>';
         $output .= '<td>' . htmlspecialchars($row['name']) . '</td>';
         $output .= '<td>' . htmlspecialchars($row['species']) . '</td>';
         $output .= '<td>' . htmlspecialchars($row['breed']) . '</td>';

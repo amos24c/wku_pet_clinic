@@ -69,7 +69,8 @@ try {
         <table id="petsTable" class="table table-striped">
             <thead>
                 <tr>
-
+                    <th>Image
+                    </th>
                     <th>Name</th>
                     <th>Species</th>
                     <th>Breed</th>
@@ -81,13 +82,16 @@ try {
             <tbody>
                 <?php foreach ($pets as $pet): ?>
                     <tr>
+                        <td>
+                            <img src="<?php echo htmlspecialchars($pet['picture']); ?>" alt="Pet Image"
+                                style="width: 60px; height: auto;">
+                        </td>
                         <td><?php echo htmlspecialchars($pet['name']); ?></td>
                         <td><?php echo htmlspecialchars($pet['species']); ?></td>
                         <td><?php echo htmlspecialchars($pet['breed']); ?></td>
                         <td><?php echo htmlspecialchars($pet['age']); ?></td>
                         <td>
                             <!-- Fix applied here -->
-                            <a href="pet_detail.php?pet_id=<?php echo $pet['pet_id']; ?>">View Details</a> |
                             <a href="edit_pet.php?pet_id=<?php echo $pet['pet_id']; ?>">Edit</a> |
                             <a href="delete_pet.php?pet_id=<?php echo $pet['pet_id']; ?>"
                                 onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
@@ -100,44 +104,90 @@ try {
     </div>
 
     <!-- The Modal -->
-<div class="modal fade" id="addPetModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Add New Pet</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="pet-name" class="form-label">Name:</label>
-                        <input type="text" class="form-control" id="pet-name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="species" class="form-label">Species:</label>
-                        <input type="text" class="form-control" id="species" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="breed" class="form-label">Breed:</label>
-                        <input type="text" class="form-control" id="breed">
-                    </div>
-                    <div class="mb-3">
-                        <label for="age" class="form-label">Age:</label>
-                        <input type="number" class="form-control" id="age">
-                    </div>
-                    <div class="mb-3">
-                        <label for="medical-history" class="form-label">Medical History:</label>
-                        <textarea class="form-control" id="medical-history" rows="3"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="btnSavePet" class="btn btn-primary">Save Pet</button>
+    <div class="modal fade" id="addPetModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Add New Pet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="pet-name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="pet-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="species" class="form-label">Species:</label>
+                            <input type="text" class="form-control" id="species" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="breed" class="form-label">Breed:</label>
+                            <input type="text" class="form-control" id="breed">
+                        </div>
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Age:</label>
+                            <input type="number" class="form-control" id="age">
+                        </div>
+                        <div class="mb-3">
+                            <label for="medical-history" class="form-label">Medical History:</label>
+                            <textarea class="form-control" id="medical-history" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pet-image" class="form-label">Pet Image:</label>
+                            <input type="file" class="form-control" id="pet-image" name="pet_image">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnSavePet" class="btn btn-primary">Save Pet</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+
+    <!-- Edit Pet Modal -->
+    <div class="modal fade" id="editPetModal" tabindex="-1" aria-labelledby="editPetLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPetLabel">Edit Pet Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPetForm">
+                        <input type="hidden" id="edit-pet-id">
+                        <div class="mb-3">
+                            <label for="edit-pet-name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="edit-pet-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-species" class="form-label">Species:</label>
+                            <input type="text" class="form-control" id="edit-species" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-breed" class="form-label">Breed:</label>
+                            <input type="text" class="form-control" id="edit-breed">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-age" class="form-label">Age:</label>
+                            <input type="number" class="form-control" id="edit-age">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-medical-history" class="form-label">Medical History:</label>
+                            <textarea class="form-control" id="edit-medical-history" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnUpdatePet" class="btn btn-primary">Update Pet</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- jQuery -->
@@ -153,52 +203,62 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="text/javascript">
-        $(function(){
-            $('#btnSavePet').click(function(){
-                var petName = $('#pet-name').val();
-                var species = $('#species').val();
-                var breed = $('#breed').val();
-                var age = $('#age').val();
+        $(function () {
+            $('#btnSavePet').click(function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                var formData = new FormData();
+                formData.append('name', $('#pet-name').val());
+                formData.append('species', $('#species').val());
+                formData.append('breed', $('#breed').val());
+                formData.append('age', $('#age').val());
+                formData.append('medical_history', $('#medical-history').val());
+                formData.append('pet_image', $('#pet-image')[0].files[0]); // Get the file from input
 
                 $.ajax({
-                    url: 'add_pet.php',
+                    url: 'add_pet.php', // Your server-side script that handles the form submission
                     type: 'POST',
-                    data: {
-                        petName: petName,
-                        species: species,
-                        breed: breed,
-                        age: age
-                    },
-                    success: function(response){
-                        //close modal
-                        $('#addPetModal').modal('hide');
+                    data: formData,
+                    contentType: false, // Important: without this, jQuery will set the content-type
+                    processData: false, // Important: without this, jQuery will try to convert your FormData into a string, which isn't useful
+                    success: function (response) {
+                        console.log(response);
+                        alert('Pet added successfully!');
                         reloadPetsTable();
+                        //reset modal fields
+                        $('#pet-name').val('');
+                        $('#species').val('');
+                        $('#breed').val('');
+                        $('#age').val('');
+                        $('#medical-history').val('');
+                        $('#pet-image').val('');
+                        $('#addPetModal').modal('hide');
 
                     },
-                    error: function(err){
-                        console.log('Error: Failed to add pet.');
-                            console.log(err);
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
                     }
                 });
             });
         });
 
-        function reloadPetsTable(){
+        function reloadPetsTable() {
             $.ajax({
                 url: 'get_pets.php',
                 type: 'GET',
-                success: function(response){
+                success: function (response) {
                     console.log(response);
                     $('#petsTable tbody').html(response);
                     $('#petsTable').DataTable();
                 },
-                error: function(err){
+                error: function (err) {
                     console.log('Error: Failed to fetch pets.');
                     console.log(err);
                 }
             });
         }
     </script>
+
 </body>
 
 </html>
