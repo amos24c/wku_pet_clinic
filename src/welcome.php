@@ -40,6 +40,10 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- DataTables CSS -->
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+
 </head>
 
 <body>
@@ -92,6 +96,10 @@ try {
                         <td><?php echo htmlspecialchars($pet['age']); ?></td>
                         <td>
                             <a href="#" class="edit-pet" data-val="<?php echo $pet['pet_id'] ?>">Edit</a>
+                            |
+                            <!-- Add pet appointment -->
+                            <a href="#" class="edit-appointments"
+                                data-pet-id="<?php echo $pet['pet_id'] ?>">Appointments</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -190,27 +198,108 @@ try {
         </div>
     </div>
 
+    <!-- Service Selection Modal -->
+    <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serviceModalLabel">Book a Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input type="hidden" id="service-pet-id">
+                        <div class="mb-3">
+                            <label for="service-select" class="form-label">Select Service:</label>
+                            <select id="service-select" name="service" class="form-select">
+                                <?php include 'get_services_dropdown.php';
+                                echo getServicesDropdown(); ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="service-date" class="form-label">Select Date:</label>
+                            <input type="text" class="form-control" id="service-date">
+                        </div>
+                        <div class="mb-3">
+                            <label for="service-time" class="form-label">Select Time:</label>
+                            <input type="text" class="form-control" id="service-time">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="btnBookService" type="button" class="btn btn-primary">Book Service</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+    <!-- Optional Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- add datepicker -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+
     <script>
         $(document).ready(function () {
+            $('#service-date').datepicker();
+            $("#service-time").timepicker({
+                timeFormat: 'hh:mm tt',
+                interval: 30,
+                minTime: '10',
+                maxTime: '6:00pm',
+                startTime: '10:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });
             $('#petsTable').DataTable();
         });
     </script>
-    <!-- Optional Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="text/javascript">
         $(function () {
 
+            //book service
+            $('#btnBookService').click(function (e) {
+       
+                var petId = $('#service-pet-id').val();
+
+
+                e.preventDefault();
+                var service = $('#service-select').val();
+                var date = $('#service-date').val();
+                var time = $('#service-time').val();
+
+                $.ajax({
+                    url: 'book_service.php',  // Your server-side script to process the form
+                    type: 'POST',
+                    data: { service: service, date: date, time: time, pet_id: petId },
+                    success: function (response) {
+                        console.log(response);
+                        alert('Service booked successfully!');
+                        $('#serviceModal').modal('hide');
+                        // Optionally refresh or update UI here
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
 
             $('#btnUpdatePet').click(function (e) {
                 e.preventDefault();
                 var formData = new FormData($('#editPetForm')[0]);  // Create FormData from form element
-    
+
                 // add breed
                 //append petid  
                 formData.append('pet_id', $('#edit-pet-id').val());
@@ -242,7 +331,17 @@ try {
                 });
             });
 
-            // click doenst work after reloaddatatable
+            //edit appointments
+            $('#petsTable').on('click', '.edit-appointments', function (e) {
+                e.preventDefault();
+                var petId = $(this).data('pet-id'); // Ensure you're using the right data attribute to get the pet ID
+
+                // Open the service modal
+                $('#serviceModal').modal('show');
+
+                // Set the pet ID in the modal
+                $('#service-pet-id').val(petId);
+            });
 
             $('#petsTable').on('click', '.edit-pet', function (e) {
                 e.preventDefault();
