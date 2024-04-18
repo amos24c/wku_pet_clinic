@@ -75,8 +75,8 @@ VALUES ('1234 Pet Street, PetTown, PT 12345', '555-1234', 'contact@petclinic.com
 
 INSERT INTO Staff (name, email, password, role, photo_url, qualifications, specialization)
 VALUES
-('John Doe', 'clinicadmin@test.com', '$2y$10$4UoC5/1zJi2n97lVn1nNcOQdP7ZELzO0HO4YRvkXmQgFv0sN6F.u2', 'clinicadmin', 'images/johndoe.jpg',  'MSc in Veterinary Medicine', 'Veterinary Surgeon'),
-('Jane Smith', 'staff@test.com', '$2y$10$4UoC5/1zJi2n97lVn1nNcOQdP7ZELzO0HO4YRvkXmQgFv0sN6F.u2', 'staff', 'images/janesmith.jpg', 'PhD in Veterinary Pharmacology', 'Pharmacologist');
+('John Doe', 'clinicadmin@test.com', '$2y$10$ICu1R6G3fazOG/bYulAeQOhCaOl8eIxgvvZDAuSpMIC/O4Ou17n4a', 'clinicadmin', 'images/johndoe.jpg',  'MSc in Veterinary Medicine', 'Veterinary Surgeon'),
+('Jane Smith', 'staff@test.com', '$2y$10$ICu1R6G3fazOG/bYulAeQOhCaOl8eIxgvvZDAuSpMIC/O4Ou17n4a', 'staff', 'images/janesmith.jpg', 'PhD in Veterinary Pharmacology', 'Pharmacologist');
 
 
 INSERT INTO Owners (name, email, phone, address, password, deleted, created, updated)
