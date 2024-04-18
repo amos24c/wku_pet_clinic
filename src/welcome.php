@@ -59,6 +59,7 @@ try {
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="services.php">Services</a>
                     <a class="nav-link" href="contact.php">Contact</a>
+                    <a class="nav-link" href="profile.php">Profile</a>
                     <a class="nav-link" href="logout.php">Logout</a>
                 </div>
             </div>
