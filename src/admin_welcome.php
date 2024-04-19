@@ -111,7 +111,12 @@ try {
                             |
                             <!-- Add pet appointment -->
                             <a href="#" class="edit-appointments"
-                                data-pet-id="<?php echo $pet['pet_id'] ?>">Appointments</a>
+                                data-pet-id="<?php echo $pet['pet_id'] ?>">Book Appointments</a>
+
+                            <?php if ($_SESSION["role"] == 'staff'): ?>| 
+                                <a class="manage-appointments" data-pet-id="<?php echo $pet['pet_id'] ?>">Manage Appointments</a>
+                            <?php endif; ?>
+                          
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -244,6 +249,31 @@ try {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button id="btnBookService" type="button" class="btn btn-primary">Book Service</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage appointments modal -->
+    <!-- larger modal -->
+
+
+
+    <div class="modal fade" id="manageAppointmentsModal" tabindex="-1" aria-labelledby="manageAppointmentsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog model-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="manageAppointmentsModalLabel">Manage Appointments</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="manage-appointments-placeholder">
+                          
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -382,6 +412,26 @@ try {
                 });
             });
 
+//appointment status on change
+            $('body').on('change', '.appointment-status', function (e) {
+                e.preventDefault();
+                var appointmentId = $(this).data('id');
+                var status = $(this).val();
+                $.ajax({
+                    url: 'admin/update_appointment_status.php',
+                    type: 'POST',
+                    data: { appointment_id: appointmentId, new_status: status },
+                    success: function (response) {
+                        console.log(response);
+                        alert('Appointment status updated successfully!');
+                        // Optionally refresh or update UI here
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
+
             //delete appointment
             $('body').on('click', '.delete-appointment', function (e) {
                 e.preventDefault();
@@ -411,6 +461,28 @@ try {
                                 alert('An error occurred: ' + error);
                             }
                         });
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
+
+            //manage appointments
+            $('#petsTable').on('click', '.manage-appointments', function (e) {
+                e.preventDefault();
+                var petId = $(this).data('pet-id'); // Ensure you're using the right data attribute to get the pet ID
+
+                // Open the service modal
+                $('#manageAppointmentsModal').modal('show');
+
+                // load the existing appointments
+                $.ajax({
+                    url: 'manage_appointments_list.php',
+                    type: 'GET',
+                    data: { pet_id: petId },
+                    success: function (response) {
+                        $('.manage-appointments-placeholder').html(response);
                     },
                     error: function (xhr, status, error) {
                         alert('An error occurred: ' + error);

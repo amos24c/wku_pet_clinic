@@ -104,7 +104,10 @@ try {
                             |
                             <!-- Add pet appointment -->
                             <a href="#" class="edit-appointments"
-                                data-pet-id="<?php echo $pet['pet_id'] ?>">Appointments</a>
+                                data-pet-id="<?php echo $pet['pet_id'] ?>">Book Appointments</a>
+
+                                <!-- Past Services --> | 
+                            <a href="#" class="view-service-history"data-pet-id="<?php echo $pet['pet_id'] ?>" >Service History</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -237,6 +240,27 @@ try {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button id="btnBookService" type="button" class="btn btn-primary">Book Service</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service History modal   -->
+    <div class="modal fade" id="serviceHistoryModal" tabindex="-1" aria-labelledby="serviceHistoryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serviceHistoryModalLabel">Service History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="service-history-placeholder">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

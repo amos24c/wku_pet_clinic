@@ -11,7 +11,7 @@ if ($mysqli->connect_error) {
 $pet_id = isset($_GET['pet_id']) ? (int) $_GET['pet_id'] : 0;
 
 // Query to fetch appointments for a specific pet
-$query = "SELECT appointment_id, pet_id, date, time, s.name as name FROM Appointments a JOIN Services s on a.service_id = s.service_id WHERE pet_id = ? ORDER BY date ASC, time ASC";
+$query = "SELECT appointment_id, pet_id, date, time, s.name as name FROM Appointments a JOIN Services s on a.service_id = s.service_id WHERE pet_id = ? AND status <> 'Completed' ORDER BY date ASC, time ASC";
 
 // Prepare statement
 if ($stmt = $mysqli->prepare($query)) {
