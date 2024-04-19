@@ -24,6 +24,7 @@ if ($stmt = $mysqli->prepare($query)) {
 
     $count = $result->num_rows;
 
+    echo "<br>Total Appointments: " . $count . "<br>";
     // Check for results
     if ($result->num_rows > 0) {
         // Output each row as an HTML anchor tag
@@ -35,7 +36,7 @@ if ($stmt = $mysqli->prepare($query)) {
     } else {
         echo "No appointments found for the specified pet.";
     }
-    echo "<br>Total Appointments: " . $count;
+
     //add space
     echo "<br>";
     $stmt->close();

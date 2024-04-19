@@ -36,7 +36,9 @@ CREATE TABLE Services (
     price DECIMAL(10, 2),
     deleted INT,
     created datetime,
-    updated datetime
+    updated datetime,
+    promo_code VARCHAR(50),
+    promo_amt DECIMAL(10, 2)
 );
 
 CREATE TABLE Appointments (

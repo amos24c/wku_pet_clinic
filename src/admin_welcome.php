@@ -58,7 +58,16 @@ try {
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="services.php">Services</a>
                     <a class="nav-link" href="contact.php">Contact</a>
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="logout.php">Logout  <?php echo htmlspecialchars('(Role - ' . $_SESSION["role"] . ')' ); ?></a>
+
+                    <!-- Add Admin link if role is staff -->
+                    <?php if ($_SESSION["role"] == 'staff'): ?> 
+                        <a class="nav-link" href="admin_welcome.php">Admin</a>
+                    <?php endif; ?>
+                       <!-- Add Admin link if role is staff -->
+                       <?php if ($_SESSION["role"] == 'staff'): ?> 
+                        <a class="nav-link" href="admin_services.php">Manage Services</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
