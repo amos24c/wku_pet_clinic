@@ -6,7 +6,10 @@ if ($mysqli->connect_error) {
 }
 
 $pet_id = isset($_GET['pet_id']) ? (int)$_GET['pet_id'] : 0;
-$query = "SELECT appointment_id, pet_id, date, time, a.status, s.name as service_name FROM Appointments a JOIN Services s on a.service_id = s.service_id WHERE pet_id = ? ORDER BY date ASC, time ASC";
+$query = "SELECT a.appointment_id, pet_id, date, time, a.status, s.name as service_name, ar.rating, ar.comment, ar.clinic_comment
+FROM Appointments a 
+LEFT JOIN AppointmentRating ar on ar.appointment_id = a.appointment_id
+JOIN Services s on a.service_id = s.service_id WHERE pet_id = ? ORDER BY date ASC, time ASC";
 
 if ($stmt = $mysqli->prepare($query)) {
     $stmt->bind_param('i', $pet_id);
@@ -15,7 +18,10 @@ if ($stmt = $mysqli->prepare($query)) {
 
     if ($result->num_rows > 0) {
         echo "<table class='table table-striped'>";
-        echo "<tr><th>Service</th><th>Date</th><th>Time</th><th>Action</th><th>Status<th></tr>";
+        echo "<tr><th>Service</th><th>Date</th><th>Time</th><th>Action</th><th>Status</th><th>Cust Rating</th><th>Cust Comment</th>
+        <th>Clinic Comment</th>
+
+        </tr>";
         echo "<tbody>";
     
         while ($row = $result->fetch_assoc()) {
@@ -30,9 +36,19 @@ if ($stmt = $mysqli->prepare($query)) {
             <option value='Approved'>Approved</option>
             <option value='Cancelled'>Cancelled</option>
             <option value='Completed'>Completed</option>
+            
+
         </select></td>";
             //auto select value
             echo "<script>$('#status-{$row['appointment_id']}').val('{$row['status']}');</script>";
+
+            //display rating label
+            echo "<td><input type='text' value='{$row['rating']}' class='form-control rating' data-id='{$row['appointment_id']}' readonly disabled></td>";
+            //display comment label
+            echo "<td><input type='text' value='{$row['comment']}' class='form-control comment' data-id='{$row['appointment_id']}' readonly disabled></td>";
+
+            //display clinic comment label
+            echo "<td><input type='text' value='{$row['clinic_comment']}' class='form-control clinic-comment' data-id='{$row['appointment_id']}'></td>";
 
             echo "</tr>";
         }

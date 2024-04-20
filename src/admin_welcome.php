@@ -127,7 +127,7 @@ try {
 
     <!-- The Modal -->
     <div class="modal fade" id="addPetModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabel">Add New Pet</h5>
@@ -172,7 +172,7 @@ try {
 
     <!-- Edit Pet Modal -->
     <div class="modal fade" id="editPetModal" tabindex="-1" aria-labelledby="editPetLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editPetLabel">Edit Pet Details</h5>
@@ -217,7 +217,7 @@ try {
 
     <!-- Service Selection Modal -->
     <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl" >
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="serviceModalLabel">Book a Service</h5>
@@ -261,7 +261,7 @@ try {
 
     <div class="modal fade" id="manageAppointmentsModal" tabindex="-1" aria-labelledby="manageAppointmentsModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog model-xl">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="manageAppointmentsModalLabel">Manage Appointments</h5>
@@ -405,6 +405,27 @@ try {
                         reloadPetsTable();
 
 
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
+
+            //clinic comment on change,Save
+            $('body').on('change', '.clinic-comment', function (e) {
+                e.preventDefault();
+                var appointmentId = $(this).data('id');
+                var clinicComment = $(this).val();
+                console.log(appointmentId, clinicComment);
+                $.ajax({
+                    url: 'admin/update_clinic_comment.php',
+                    type: 'POST',
+                    data: { appointment_id: appointmentId, comment: clinicComment },
+                    success: function (response) {
+                        console.log(response);
+                        alert('Clinic comment updated successfully!');
+                        // Optionally refresh or update UI here
                     },
                     error: function (xhr, status, error) {
                         alert('An error occurred: ' + error);
