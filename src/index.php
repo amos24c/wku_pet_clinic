@@ -62,29 +62,41 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-12">
-<!-- dog banner with center only crop and text overlay -->
-<div style="position: relative; text-align: left;">
-    <img src="https://le-cdn.hibuwebsites.com/60635202adcf484eb771b5be44417455/dms3rep/multi/opt/Policies-2880w.jpg" class="img-fluid" alt="Dog Banner" style="object-fit: cover; object-position: center;">
-    <div style="position: absolute; top: 50%; left: 10%; transform: translateY(-50%);">
-        <h1 style="color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">Welcome to Our Veterinary Clinic</h1>
-        <p style="color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); font-size: 20px;color:white !important;">Committed to the care and health of your pets.</p>
-    </div>
-</div>
-                <p>At Our Veterinary Clinic, we understand that pets are more than just animals—they are family. That’s why we're committed to providing the highest level of care and compassion in everything we do. Whether your furry friend needs routine check-ups, emergency intervention, or specialized treatment, you can count on us to be there every step of the way.</p>
-                
-                <h2 class="mb-3">Your Pet's Health, Our Top Priority</h1>            
-                <p>Open 24/7 for emergencies, our clinic is equipped with state-of-the-art facilities to ensure your pet receives the best possible care at any hour. With a full range of services from vaccinations and dental cleaning to advanced surgical procedures and behavioral training, our dedicated team of veterinary professionals is here to support the health and happiness of your pet.</p>
-
-                <!-- Services Section -->
-                <div id="services" class="mb-3">
-                    <h2 class="mb-3">Explore Our Comprehensive Veterinary Services</h2>
-<p>Navigate through our services below and discover how we can help enhance your pet's life through meticulous care and profound medical expertise. Because at Our Veterinary Clinic, we believe every pet deserves to live a happy and healthy life.</p>
-                    <!-- Example service tile -->
-            
-                    <!-- Include PHP file that generates similar tiles -->
-                    <?php include 'services.php'; ?>
-
+                <!-- dog banner with center only crop and text overlay -->
+                <div style="position: relative; text-align: left;">
+                    <img src="https://le-cdn.hibuwebsites.com/60635202adcf484eb771b5be44417455/dms3rep/multi/opt/Policies-2880w.jpg"
+                        class="img-fluid" alt="Dog Banner" style="object-fit: cover; object-position: center;">
+                    <div style="position: absolute; top: 50%; left: 10%; transform: translateY(-50%);">
+                        <h1 style="color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">Welcome to Our Veterinary
+                            Clinic</h1>
+                        <p
+                            style="color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); font-size: 20px;color:white !important;">
+                            Committed to the care and health of your pets.</p>
+                    </div>
                 </div>
+                <p>At Our Veterinary Clinic, we understand that pets are more than just animals—they are family. That’s
+                    why we're committed to providing the highest level of care and compassion in everything we do.
+                    Whether your furry friend needs routine check-ups, emergency intervention, or specialized treatment,
+                    you can count on us to be there every step of the way.</p>
+
+                <h2 class="mb-3">Your Pet's Health, Our Top Priority</h1>
+                    <p>Open 24/7 for emergencies, our clinic is equipped with state-of-the-art facilities to ensure your
+                        pet receives the best possible care at any hour. With a full range of services from vaccinations
+                        and dental cleaning to advanced surgical procedures and behavioral training, our dedicated team
+                        of veterinary professionals is here to support the health and happiness of your pet.</p>
+
+                    <!-- Services Section -->
+                    <div id="services" class="mb-3">
+                        <h2 class="mb-3">Explore Our Comprehensive Veterinary Services</h2>
+                        <p>Navigate through our services below and discover how we can help enhance your pet's life
+                            through meticulous care and profound medical expertise. Because at Our Veterinary Clinic, we
+                            believe every pet deserves to live a happy and healthy life.</p>
+                        <!-- Example service tile -->
+
+                        <!-- Include PHP file that generates similar tiles -->
+                        <?php include 'services.php'; ?>
+
+                    </div>
             </div>
         </div>
     </div>
