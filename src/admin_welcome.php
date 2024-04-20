@@ -20,7 +20,7 @@ try {
     $owner_id = $_SESSION['id'];
 
     // Prepare a select statement to fetch pets
-    $sql = "SELECT * FROM Pets";
+    $sql = "SELECT p.*, o.name as owner FROM Pets p join Owners o on p.owner_id = o.owner_id and p.deleted = 0";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -56,7 +56,7 @@ try {
 
     <div class="container mt-5">
         <h1 class="display-4">Hello, <?php echo htmlspecialchars($_SESSION["email"]); ?>!</h1>
-        <p class="lead">Here are your pets:</p>
+        <p class="lead">Here are all the pets for Our Pet Clinic:</p>
 
         <!-- Trigger/Open The Modal -->
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPetModal">Add New Pet</a>
@@ -68,6 +68,7 @@ try {
                 <tr>
                     <th>Image
                     </th>
+                    <th>Owner</th>
                     <th>Name</th>
                     <th>Species</th>
                     <th>Breed</th>
@@ -83,6 +84,7 @@ try {
                             <img src="<?php echo htmlspecialchars($pet['picture']); ?>" alt="Pet Image"
                                 style="width: 60px; height: auto;">
                         </td>
+                        <td><?php echo htmlspecialchars($pet['owner']); ?></td>
                         <td><?php echo htmlspecialchars($pet['name']); ?></td>
                         <td><?php echo htmlspecialchars($pet['species']); ?></td>
                         <td><?php echo htmlspecialchars($pet['breed']); ?></td>
@@ -95,7 +97,8 @@ try {
                                 data-pet-id="<?php echo $pet['pet_id'] ?>">Book Appointments</a>
 
                             <?php if ($_SESSION["role"] == 'staff'): ?>| 
-                                <a class="manage-appointments" data-pet-id="<?php echo $pet['pet_id'] ?>">Manage Appointments</a>
+                                <a class="manage-appointments" data-pet-id="<?php echo $pet['pet_id'] ?>">Manage Appointments</a> |
+                                <a class="delete-pet" data-pet-id="<?php echo $pet['pet_id'] ?>">Delete</a>
                             <?php endif; ?>
                           
                         </td>
@@ -295,6 +298,29 @@ try {
 
     <script type="text/javascript">
         $(function () {
+
+            //delete pet
+            $('body').on('click', '.delete-pet', function (e) {
+                e.preventDefault();
+                if (!confirm('Are you sure you want to delete this pet?')) {
+                    return;
+                }
+                var petId = $(this).data('pet-id');
+                $.ajax({
+                    url: 'admin/delete_pet.php',
+                    type: 'POST',
+                    data: { pet_id: petId },
+                    success: function (response) {
+                        console.log(response);
+                        alert('Pet deleted successfully!');
+                        // Optionally refresh or update UI here
+                        reloadPetsTable();
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
 
             //book service
             $('#btnBookService').click(function (e) {

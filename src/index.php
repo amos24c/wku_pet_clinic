@@ -30,7 +30,7 @@
             /* Align tiles properly */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             /* Subtle shadow for depth */
-            height: 200px;
+            height: 250px;
             margin-bottom: 20px;
             background-color: #FFC845;
         }

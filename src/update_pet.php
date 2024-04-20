@@ -61,11 +61,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
+            // Update database record
+        $stmt = $mysqli->prepare("UPDATE Pets SET name = ?, species = ?, breed = ?, age = ?, medical_history = ?, picture = ? WHERE pet_id = ?");
+        $stmt->bind_param("sssissi", $name, $species, $breed, $age, $medical_history, $target_file, $pet_id);
     }
+else{
+        // Update database record
+        $stmt = $mysqli->prepare("UPDATE Pets SET name = ?, species = ?, breed = ?, age = ?, medical_history = ? WHERE pet_id = ?");
+        $stmt->bind_param("sssisi", $name, $species, $breed, $age, $medical_history, $pet_id);
+}
 
-    // Update database record
-    $stmt = $mysqli->prepare("UPDATE Pets SET name = ?, species = ?, breed = ?, age = ?, medical_history = ?, picture = ? WHERE pet_id = ?");
-    $stmt->bind_param("sssissi", $name, $species, $breed, $age, $medical_history, $target_file, $pet_id);
+
     if ($stmt->execute()) {
         echo "Record updated successfully";
     } else {

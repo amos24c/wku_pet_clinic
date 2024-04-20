@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert into database
-    $stmt = $mysqli->prepare("INSERT INTO Pets (owner_id, name, species, breed, age, medical_history, picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $mysqli->prepare("INSERT INTO Pets (owner_id, name, species, breed, age, medical_history, picture, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, 0)");
     $stmt->bind_param("isssiss", $owner_id, $name, $species, $breed, $age, $medical_history, $target_file);
     if ($stmt->execute()) {
         echo "New record created successfully";

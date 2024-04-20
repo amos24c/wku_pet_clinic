@@ -17,7 +17,7 @@ $mysqli->set_charset("utf8mb4");
 
 try {
     // Prepare the query
-    $query = "SELECT name, description, price FROM Services ORDER BY name";
+    $query = "SELECT name, description, price FROM Services WHERE deleted = 0 ORDER BY name";
     $result = $mysqli->query($query);
 
     // Check if query was successful

@@ -40,7 +40,7 @@ $mysqli->close();
         <h2>Contact Us</h2>
         <?php if ($info): ?>
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" style="background-color:#FFC845">
                     <h4 class="card-title">Clinic Contact Information</h4>
                     <p class="card-text"><strong>Address:</strong> <?php echo htmlspecialchars($info['address']); ?></p>
                     <p class="card-text"><strong>Phone:</strong> <?php echo htmlspecialchars($info['phone']); ?></p>

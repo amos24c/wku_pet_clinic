@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<?php require 'navbar.php'; ?>
     <div class="container mt-5">
         <h2 class="mb-3">Owner Registration</h2>
         <form id="registrationForm" class="needs-validation" novalidate>
