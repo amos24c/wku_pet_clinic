@@ -50,30 +50,9 @@ try {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Pet Clinic</a>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link" href="services.php">Services</a>
-                    <a class="nav-link" href="contact.php">Contact</a>
-                 
+<?php require 'navbar.php'; ?>
 
-                    <!-- Add Admin link if role is staff -->
-                    <?php if ($_SESSION["role"] == 'staff'): ?> 
-                        <a class="nav-link" href="admin_welcome.php">Admin</a>
-                    <?php endif; ?>
-                       <!-- Add Admin link if role is staff -->
-                       <?php if ($_SESSION["role"] == 'staff'): ?> 
-                        <a class="nav-link" href="admin_services.php">Manage Services</a>
-                    <?php endif; ?>
 
-                    <a class="nav-link" href="logout.php">Logout  <?php echo htmlspecialchars('(' . $_SESSION["email"] . ' - ' . $_SESSION["role"] . ')' ); ?></a>
-                </div>
-            </div>
-        </div>
-    </nav>
 
     <div class="container mt-5">
         <h1 class="display-4">Hello, <?php echo htmlspecialchars($_SESSION["email"]); ?>!</h1>

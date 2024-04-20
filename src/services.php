@@ -34,10 +34,11 @@ try {
     $result->free();
 
     foreach ($services as $service) {
-        echo "<div class='card mb-3'>";
-        echo "<div class='card-body'>";
-        echo "<h5 class='card-title'>" . htmlspecialchars($service['name']) . ' $'. ($service['price']) . "</h5>";
-        echo "<p class='card-text'>" . htmlspecialchars($service['description']) . "</p>";
+        // Output each service as an HTML card
+        echo "<div class='service-card'>";
+        echo "<div class='service-card-body'>";
+        echo "<h5 class='service-card-title'>" . htmlspecialchars($service['name']) . '<br>' . ' $' . number_format($service['price'], 2) . "</h5>";
+        echo "<p class='service-card-text'>" . htmlspecialchars($service['description']) . "</p>";
         echo "</div>";
         echo "</div>";
     }

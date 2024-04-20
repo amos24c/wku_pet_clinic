@@ -51,24 +51,11 @@ try {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Pet Clinic</a>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link" href="services.php">Services</a>
-                    <a class="nav-link" href="contact.php">Contact</a>
-                    <a class="nav-link" href="profile.php">Profile</a>
-                    <a class="nav-link" href="logout.php">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php require 'navbar.php'; ?>
 
     <div class="container mt-5">
         <h1 class="display-4">Hello, <?php echo htmlspecialchars($_SESSION["email"]); ?>!</h1>
-        <p class="lead">Here are your pets:</p>
+        <p class="lead">Here are your pets.  You can add new pets and or manage bookings from the list below.  You may also access your previous bookings under Service History, we appreciate any feedback.</p>
 
         <!-- Trigger/Open The Modal -->
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPetModal">Add New Pet</a>
