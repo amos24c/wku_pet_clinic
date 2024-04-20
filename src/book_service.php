@@ -43,6 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("iisss", $service, $petId, $formattedDate, $time, $status);
         if ($stmt->execute()) {
             echo json_encode(['success' => 'Service booked successfully']);
+
+            // send confirmation email via mailchimp
+            // include 'mailchimp.php';
+            // sendMailchimpEmail($email, $name, $service, $date, $time);
+            
         } else {
             echo json_encode(['error' => 'Error booking service: ' . $stmt->error]);
         }
@@ -50,6 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo json_encode(['error' => 'Database error: ' . $mysqli->error]);
     }
+
+
+    
 } else {
     echo json_encode(['error' => 'Invalid request method']);
 }

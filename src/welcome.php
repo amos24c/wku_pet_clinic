@@ -43,11 +43,11 @@ try {
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
-        <style>
-    .error {
-        border: 2px solid red;
-    }
-</style>
+    <style>
+        .error {
+            border: 2px solid red;
+        }
+    </style>
 </head>
 
 <body>
@@ -103,11 +103,12 @@ try {
                             <a href="#" class="edit-pet" data-val="<?php echo $pet['pet_id'] ?>">Edit</a>
                             |
                             <!-- Add pet appointment -->
-                            <a href="#" class="edit-appointments"
-                                data-pet-id="<?php echo $pet['pet_id'] ?>">Book Appointments</a>
+                            <a href="#" class="edit-appointments" data-pet-id="<?php echo $pet['pet_id'] ?>">Book
+                                Appointments</a>
 
-                                <!-- Past Services --> | 
-                            <a href="#" class="view-service-history"data-pet-id="<?php echo $pet['pet_id'] ?>" >Service History</a>
+                            <!-- Past Services --> |
+                            <a href="#" class="view-service-history" data-pet-id="<?php echo $pet['pet_id'] ?>">Service
+                                History</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -248,7 +249,7 @@ try {
     <!-- Service History modal   -->
     <div class="modal fade" id="serviceHistoryModal" tabindex="-1" aria-labelledby="serviceHistoryModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="serviceHistoryModalLabel">Service History</h5>
@@ -301,6 +302,54 @@ try {
 
     <script type="text/javascript">
         $(function () {
+
+            // Event handler for rating changes
+            // use body on change
+            $('body').on('change', '.rating-dropdown, .rating-comment', function (e) {
+                var appointmentId = $(this).data('appointment-id');
+                var rating = $('select.rating-dropdown[data-appointment-id="' + appointmentId + '"]').val();
+                var comment = $('input.rating-comment[data-appointment-id="' + appointmentId + '"]').val();
+
+                $.ajax({
+                    url: 'save_rating.php',
+                    type: 'POST',
+                    data: {
+                        appointment_id: appointmentId,
+                        rating: rating,
+                        comment: comment
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        alert('Rating and comment updated successfully.');
+                    },
+                    error: function () {
+                        alert('Error saving rating and comment.');
+                    }
+                });
+            });
+
+            //load service history
+            $('body').on('click', '.view-service-history', function (e) {
+                e.preventDefault();
+                var petId = $(this).data('pet-id');
+                console.log(petId);
+                $.ajax({
+                    url: 'service_history.php',
+                    type: 'GET',
+                    data: { pet_id: petId },
+                    success: function (response) {
+                        $('.service-history-placeholder').html(response);
+                        $('#serviceHistoryModal').modal('show');
+                        //create datatable from json
+
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
 
             //book service
             $('#btnBookService').click(function (e) {

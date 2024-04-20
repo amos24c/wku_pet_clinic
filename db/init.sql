@@ -52,6 +52,18 @@ CREATE TABLE Appointments (
     FOREIGN KEY (service_id) REFERENCES Services(service_id)
 );
 
+CREATE TABLE AppointmentRating (
+    rating_id INT AUTO_INCREMENT PRIMARY KEY,
+    appointment_id INT,
+    rating INT,
+    comment TEXT,
+    clinic_comment TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (appointment_id) REFERENCES Appointments(appointment_id)
+    ON DELETE CASCADE
+);
+
+
 CREATE TABLE Staff (
     staff_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
