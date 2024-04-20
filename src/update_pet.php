@@ -22,7 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $medical_history = $_POST['medical_history'] ?? ''; // Optional field
 
     // Initialize default image (if no new image is uploaded, use existing image path)
+    
     $target_file = $_POST['existing_image_path']; // Assume this field holds the path to the existing image
+
+
 
     // File upload handling
     if (!empty($_FILES["pet_image"]["name"])) {

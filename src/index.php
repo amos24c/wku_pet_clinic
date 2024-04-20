@@ -21,9 +21,6 @@
                         <a class="nav-link" href="#services">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#hours">Operating Hours</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact Us</a>
                     </li>
                     <li class="nav-item">
@@ -43,6 +40,8 @@
             <div class="col-lg-12">
                 <h1 class="mb-3">Welcome to Our Veterinary Clinic</h1>
                 <p>Your pet's health is our top priority!</p>
+                <p>We are Open 24/7 for emergency services.</p>
+                
 
                 <!-- Services Section -->
                 <div id="services" class="mb-3">

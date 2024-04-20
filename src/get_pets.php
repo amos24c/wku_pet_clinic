@@ -24,8 +24,12 @@ if ($result) {
         $output .= '<td>' . htmlspecialchars($row['species']) . '</td>';
         $output .= '<td>' . htmlspecialchars($row['breed']) . '</td>';
         $output .= '<td>' . htmlspecialchars($row['age']) . '</td>';
-        $output .= '<td><a href="#" class="edit-pet" data-val="' . $row['pet_id'] . '">Edit</a></td>';
-        
+        $output .= '<td><a href="#" class="edit-pet" data-val="' . $row['pet_id'] . '">Edit</a> |';
+        $output .= '<a href="#" class="edit-appointments" data-pet-id="' . $row['pet_id'] . '"> Book Appointments</a> | ';
+        $output .= '<a href="#" class="view-service-history" data-pet-id="' . $row['pet_id'] . '">Service History</a></td>';
+        $output .= '</tr>';
+
+
     }
 
     echo $output;

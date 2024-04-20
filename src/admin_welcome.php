@@ -58,7 +58,7 @@ try {
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="services.php">Services</a>
                     <a class="nav-link" href="contact.php">Contact</a>
-                    <a class="nav-link" href="logout.php">Logout  <?php echo htmlspecialchars('(Role - ' . $_SESSION["role"] . ')' ); ?></a>
+                 
 
                     <!-- Add Admin link if role is staff -->
                     <?php if ($_SESSION["role"] == 'staff'): ?> 
@@ -68,6 +68,8 @@ try {
                        <?php if ($_SESSION["role"] == 'staff'): ?> 
                         <a class="nav-link" href="admin_services.php">Manage Services</a>
                     <?php endif; ?>
+
+                    <a class="nav-link" href="logout.php">Logout  <?php echo htmlspecialchars('(' . $_SESSION["email"] . ' - ' . $_SESSION["role"] . ')' ); ?></a>
                 </div>
             </div>
         </div>
@@ -602,21 +604,22 @@ try {
         });
 
         function reloadPetsTable() {
-            $.ajax({
-                url: 'get_pets.php',
-                type: 'GET',
-                success: function (response) {
-                    console.log(response);
-                    $('#petsTable tbody').html(response);
-                    $('#petsTable').DataTable();
-                    // rebind click event
+            // $.ajax({
+            //     url: 'get_pets.php',
+            //     type: 'GET',
+            //     success: function (response) {
+            //         console.log(response);
+            //         $('#petsTable tbody').html(response);
+            //         $('#petsTable').DataTable();
+            //         // rebind click event
 
-                },
-                error: function (err) {
-                    console.log('Error: Failed to fetch pets.');
-                    console.log(err);
-                }
-            });
+            //     },
+            //     error: function (err) {
+            //         console.log('Error: Failed to fetch pets.');
+            //         console.log(err);
+            //     }
+            // });
+            location.reload();
         }
 
     </script>

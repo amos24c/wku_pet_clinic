@@ -26,6 +26,7 @@ $result = $mysqli->query($query);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<?php require 'navbar.php'; ?>
 <div class="container mt-5">
     <h2>Meet Our Staff</h2>
     <div class="row">
