@@ -24,8 +24,8 @@ $owner_id = $_SESSION['id']; // Assuming owner ID is stored in session
 $sql = "SELECT a.appointment_id, a.pet_id, a.service_id, a.date, a.status, p.name as pet_name, s.name as service_name, s.price, ar.rating, ar.comment
         FROM Appointments a 
         JOIN Pets p ON a.pet_id = p.pet_id 
-        JOIN Services s ON a.service_id = s.service_id
-        JOIN AppointmentRating ar on ar.appointment_id = a.appointment_id
+        LEFT JOIN Services s ON a.service_id = s.service_id
+        LEFT JOIN AppointmentRating ar on ar.appointment_id = a.appointment_id
         WHERE p.pet_id = ? AND a.status = 'Completed' AND p.owner_id = ?
         ORDER BY a.appointment_id desc";
 

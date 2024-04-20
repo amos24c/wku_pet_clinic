@@ -56,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+<?php require 'navbar.php'; ?>
 <div class="container">
     <h2>Edit Profile</h2>
     <p>Please fill this form to update your profile.</p>
@@ -76,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <label>Address</label>
             <input type="text" name="address" class="form-control" value="<?php echo $address; ?>">
         </div>
+        <br>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Update</button>
             <a href="welcome.php" class="btn btn-secondary">Cancel</a>
